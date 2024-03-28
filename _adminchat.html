@@ -1,0 +1,525 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Admin Chat</title>
+    <style>
+        @media only screen and (max-width: 540px) {
+            .chat-sidebar {
+                display: none !important;
+            }
+
+            .chat-popup {
+                display: none !important;
+            }
+        }
+
+        body {
+            background-color: #e9eaed;
+        }
+
+        .chat-sidebar {
+            width: 200px;
+            position: fixed;
+            height: 100%;
+            right: 0px;
+            top: 0px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border: 1px solid rgba(29, 49, 91, .3);
+        }
+
+        .sidebar-name {
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+
+        .sidebar-name span {
+            padding-left: 5px;
+        }
+
+        .sidebar-name a {
+            display: block;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sidebar-name:hover {
+            background-color: #e1e2e5;
+        }
+
+        .sidebar-name img {
+            width: 32px;
+            height: 32px;
+            vertical-align: middle;
+        }
+
+        .popup-box {
+            display: none;
+            position: fixed;
+            bottom: 0px;
+            right: 220px;
+            height: 285px;
+            background-color: rgb(237, 239, 244);
+            width: 300px;
+            border: 1px solid rgba(29, 49, 91, .3);
+        }
+
+        .popup-box .popup-head {
+            background-color: #6d84b4;
+            padding: 5px;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            clear: both;
+        }
+
+        .popup-box .popup-head .popup-head-left {
+            float: left;
+        }
+
+        .popup-box .popup-head .popup-head-right {
+            float: right;
+            opacity: 0.5;
+        }
+
+        .popup-box .popup-head .popup-head-right a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .popup-box .popup-messages {
+            height: 100%;
+            overflow-y: scroll;
+        }
+    </style>
+
+    <style>
+        body {
+            background: #16a085;
+            margin: 0px;
+            height: 900px;
+            font-family: sans-serif;
+        }
+    
+        .chat_box {
+            position: fixed;
+            right: 20px;
+            bottom: 0px;
+            width: 250px;
+        }
+    
+        .chat_body {
+            background: white;
+            height: 400px;
+            padding: 5px 0px;
+        }
+    
+        .chat_head,
+        .msg_head {
+            background: #f39c12;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px 5px 0px 0px;
+        }
+    
+        .msg_box {
+            position: fixed;
+            bottom: -5px;
+            width: 250px;
+            background: white;
+            border-radius: 5px 5px 0px 0px;
+        }
+    
+        .msg_head {
+            background: #3498db;
+        }
+    
+        .msg_body {
+            background: white;
+            height: 200px;
+            font-size: 12px;
+            padding: 15px;
+            overflow: auto;
+            overflow-x: hidden;
+        }
+    
+        .msg_input {
+            width: 100%;
+            border: 1px solid white;
+            border-top: 1px solid #DDDDDD;
+            -webkit-box-sizing: border-box;
+            /* Safari/Chrome, other WebKit */
+            -moz-box-sizing: border-box;
+            /* Firefox, other Gecko */
+            box-sizing: border-box;
+        }
+    
+        .close {
+            float: right;
+            cursor: pointer;
+        }
+    
+        .minimize {
+            float: right;
+            cursor: pointer;
+            padding-right: 5px;
+    
+        }
+    
+        .user {
+            position: relative;
+            padding: 10px 30px;
+        }
+    
+        .user:hover {
+            background: #f8f8f8;
+            cursor: pointer;
+    
+        }
+    
+        .user:before {
+            content: '';
+            position: absolute;
+            background: #2ecc71;
+            height: 10px;
+            width: 10px;
+            left: 10px;
+            top: 15px;
+            border-radius: 6px;
+        }
+    
+        .msg_a {
+            position: relative;
+            background: #FDE4CE;
+            padding: 10px;
+            min-height: 10px;
+            margin-bottom: 5px;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+    
+        .msg_a:before {
+            content: "";
+            position: absolute;
+            width: 0px;
+            height: 0px;
+            border: 10px solid;
+            border-color: transparent #FDE4CE transparent transparent;
+            left: -20px;
+            top: 7px;
+        }
+    
+    
+        .msg_b {
+            background: #EEF2E7;
+            padding: 10px;
+            min-height: 15px;
+            margin-bottom: 5px;
+            position: relative;
+            margin-left: 10px;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+    
+        .msg_b:after {
+            content: "";
+            position: absolute;
+            width: 0px;
+            height: 0px;
+            border: 10px solid;
+            border-color: transparent transparent transparent #EEF2E7;
+            right: -20px;
+            top: 7px;
+        }
+    </style>
+<script src="../socket.io/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.js" integrity="sha512-Y8KodDCDqst1e8z0EGKiqEQq3T8NszmgW2HvsC6+tlNw7kxYxHTLl5Iw/gqZj/6qhZdBt+jYyOsybgSAiB9OOA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        //this function can remove a array element.
+        Array.remove = function (array, from, to) {
+            var rest = array.slice((to || from) + 1 || array.length);
+            array.length = from < 0 ? array.length + from : from;
+            return array.push.apply(array, rest);
+        };
+
+        //this variable represents the total number of popups can be displayed according to the viewport width
+        var total_popups = 0;
+
+        //arrays of popups ids
+        var popups = [];
+
+        //this is used to close a popup
+        function close_popup(id) {
+            for (var iii = 0; iii < popups.length; iii++) {
+                if (id == popups[iii]) {
+                    Array.remove(popups, iii);
+
+                    document.getElementById(id).style.display = "none";
+
+                    calculate_popups();
+
+                    return;
+                }
+            }
+        }
+
+        //displays the popups. Displays based on the maximum number of popups that can be displayed on the current viewport width
+        function display_popups() {
+            var right = 220;
+
+            var iii = 0;
+            for (iii; iii < total_popups; iii++) {
+                if (popups[iii] != undefined) {
+                    var element = document.getElementById(popups[iii]);
+                    element.style.right = right + "px";
+                    right = right + 320;
+                    element.style.display = "block";
+                }
+            }
+
+            for (var jjj = iii; jjj < popups.length; jjj++) {
+                var element = document.getElementById(popups[jjj]);
+                element.style.display = "none";
+            }
+        }
+
+        //creates markup for a new popup. Adds the id to popups array.
+        function register_popup(id, name) {
+
+            for (var iii = 0; iii < popups.length; iii++) {
+                //already registered. Bring it to front.
+                if (id == popups[iii]) {
+                    Array.remove(popups, iii);
+
+                    popups.unshift(id);
+
+                    calculate_popups();
+
+
+                    return;
+                }
+            }
+
+            var element = '<div class="msg_box" id="' + id + '">';
+            //element = element + '<div class="popup-head">';
+            element = element + '<div class= "msg_head">' + name;
+            element = element + '<div class= "close"><a onclick="close_popup(\'' + id + '\');">&#10005;</a></div></div>';
+            element = element + '<div class="msg_wrap"><div class="msg_body"><div id="msgpush'+ id +'" class="msg_push"></div><div class="msg_footer">';
+            element = element + '<textarea style="position: absolute;width:97%;bottom: 0;left: 0;"  id="txtar'+ id +'" class="'+id+'" rows="4"></textarea></div></div></div>';
+            /*var element = '<div class="popup-box chat-popup" id="' + id + '">';
+            element = element + '<div class="popup-head">';
+            element = element + '<div class="popup-head-left">' + name + '</div>';
+            element = element + '<div class="popup-head-right"><a href="javascript:close_popup(\'' + id + '\');">&#10005;</a></div>';
+            element = element + '<div style="clear: both"></div></div><div class="popup-messages"></div></div>';*/
+
+            document.getElementsByTagName("body")[0].innerHTML = document.getElementsByTagName("body")[0].innerHTML + element;
+
+            getChats(id);
+            popups.unshift(id);
+
+            calculate_popups();
+
+        }
+
+        function getChats(id) {
+                $.get("/chatmessage?id=" + id + "&author=adminseekerslocuscom", (chats) => {
+                    chats.forEach(addChat);
+                });
+            }
+            function addChat(msg) {
+                var msgid = "msgpush" + msg.author;
+                if(msg.author == 'adminseekerslocuscom'){
+                    msgid = "msgpush" + msg.receiver;
+                    console.log(msg.author);
+                $('<div class="msg_b">' + msg.body + '</div>').insertBefore('#' + msgid);
+                //$('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+                }else {
+                    console.log(msg.author);
+                    $('<div class="msg_a">' + msg.body + '</div>').insertBefore('#' + msgid);
+                    //$('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+                }
+            }
+
+        //calculate the total number of popups suitable and then populate the toatal_popups variable.
+        function calculate_popups() {
+            var width = window.innerWidth;
+            if (width < 540) {
+                total_popups = 0;
+            }
+            else {
+                width = width - 200;
+                //320 is width of a single popup box
+                total_popups = parseInt(width / 320);
+            }
+
+            display_popups();
+
+        }
+
+        //recalculate when window is loaded and also when window is resized.
+        window.addEventListener("resize", calculate_popups);
+        window.addEventListener("load", calculate_popups);
+
+    </script>
+    <script type="text/javascript" src="../assets/js/jquery.js"></script>
+    <script>
+    $(document).ready(function () {
+        var socket = io.connect({
+            reconnection: true,
+            reconnectionDelay: 1000,
+            reconnectionDelayMax: 5000,
+            reconnectionAttempts: 99999
+        });
+        var adminId= 'admin@seekerslocus.com'.replace(/\./g, '');
+        console.log(adminId);
+        adminId= adminId.replace(/@/g, '');
+        console.log(adminId);
+        socket.emit('add-user', {
+            username: adminId,
+            message: 'welcome'
+        });
+        $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                if (event.target.tagName == 'TEXTAREA') {
+                    event.preventDefault();
+                    var $focused = $(':focus');
+                    var id= event.target.id;
+                    var msgid=event.target.className;
+                    console.log(msgid);
+                    console.log($(id));
+                    var msg = $("#"+id).val();
+                    //var bidID = "[id=" + id + "]"
+                    //var msg=$(bidID).val();
+                     //var msg = $(this);//.val();
+                    console.log(msg);
+                    $('#' + id).val('');
+
+                    if (msg != '')
+                    var id = 'admin@seekerslocus.com'.replace(/@/g, '').replace(/\./g, '');
+                    var message = {
+                            username: id,
+                            message: msg,
+                            to: msgid,
+                            contid: 'msgpush'+msgid
+                        };
+                    socket.emit('chat message', message);
+                        $('<div class="msg_b">' + msg + '</div>').insertBefore('#msgpush'+msgid);
+                    $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+                }
+            }
+        });
+
+        socket.on('user joined', function (data) {
+            //log(data.username + ' joined');
+            //addParticipantsMessage(data);
+            console.log(data);
+            loadConnectedUsers(data);
+        });
+
+        socket.on('add-user', function (data) {
+            //log(data.username + ' joined');
+            //addParticipantsMessage(data);
+            console.log(data);
+            loadConnectedUsers(data);
+        });
+
+        function loadConnectedUsers(users){
+            $('.sidebar-name').remove();
+            for(var i=0; i< users.length; i++){
+                var id=users[i].username;
+                insertNewUser(id);
+            }
+        }
+
+        function insertNewUser(id){
+            console.log(id);
+            id=id.trim();
+            console.log(id);
+            var item ='onclick="register_popup(\'' + id + '\',\'' + id +'\');"'.trim();
+            console.log(item);
+            var nuser= '<div class="sidebar-name"><a '+item+'><img width="30" height="30" src="../images/ebere.jpg"/><span>'+
+                    id+'</span></a></div>';
+            $(nuser).insertBefore('.newUsers')
+        }
+
+        socket.on('chat message', function (_msg) {
+            /*socket.on('list-connected', function(data){
+                console.log(data);
+            })*/
+            /*var li = document.createElement("li");
+            li.appendChild(document.createTextNode(msg));
+            document.getElementById("messages").appendChild(li);*/
+
+            console.log(_msg);
+            var msg = cleanInput(_msg.message);
+            console.log(_msg);
+            if (msg != '')
+                $('<div class="msg_a">' + msg + '</div>').insertBefore('#'+_msg.contid);
+            //$('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+        });
+        function cleanInput(input) {
+            return $('<div/>').text(input).html();
+        }
+    });
+
+    </script>
+</head>
+
+<body>
+    <div class="chat-sidebar">
+        <div class="sidebar-name">
+            <!-- Pass username and display name to register popup -->
+            <a href="javascript:register_popup('segxy2708yahoocom', 'Narayan Prusty');">
+                <img width="30" height="30" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/v/t1.0-1/p50x50/1510656_10203002897620130_521137935_n.jpg?oh=572eaca929315b26c58852d24bb73310&oe=54BEE7DA&__gda__=1418131725_c7fb34dd0f499751e94e77b1dd067f4c"
+                />
+                <span>Narayan Prusty</span>
+            </a>
+        </div>
+        <div class="sidebar-name">
+            <a href="javascript:register_popup('segxy2708hotmailcom', 'QNimate');">
+                <img width="30" height="30" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/v/t1.0-1/p50x50/1510656_10203002897620130_521137935_n.jpg?oh=572eaca929315b26c58852d24bb73310&oe=54BEE7DA&__gda__=1418131725_c7fb34dd0f499751e94e77b1dd067f4c"
+                />
+                <span>QNimate</span>
+            </a>
+        </div>
+        <div class="sidebar-name">
+            <a href="javascript:register_popup('qscutter', 'QScutter');">
+                <img width="30" height="30" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/v/t1.0-1/p50x50/1510656_10203002897620130_521137935_n.jpg?oh=572eaca929315b26c58852d24bb73310&oe=54BEE7DA&__gda__=1418131725_c7fb34dd0f499751e94e77b1dd067f4c"
+                />
+                <span>QScutter</span>
+            </a>
+        </div>
+        <div class="sidebar-name">
+            <a href="javascript:register_popup('qidea', 'QIdea');">
+                <img width="30" height="30" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/v/t1.0-1/p50x50/1510656_10203002897620130_521137935_n.jpg?oh=572eaca929315b26c58852d24bb73310&oe=54BEE7DA&__gda__=1418131725_c7fb34dd0f499751e94e77b1dd067f4c"
+                />
+                <span>QIdea</span>
+            </a>
+        </div>
+        <div class="sidebar-name">
+            <a href="javascript:register_popup('qazy', 'QAzy');">
+                <img width="30" height="30" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/v/t1.0-1/p50x50/1510656_10203002897620130_521137935_n.jpg?oh=572eaca929315b26c58852d24bb73310&oe=54BEE7DA&__gda__=1418131725_c7fb34dd0f499751e94e77b1dd067f4c"
+                />
+                <span>QAzy</span>
+            </a>
+        </div>
+        <div class="sidebar-name">
+            <a href="javascript:register_popup('qblock', 'QBlock');">
+                <img width="30" height="30" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/v/t1.0-1/p50x50/1510656_10203002897620130_521137935_n.jpg?oh=572eaca929315b26c58852d24bb73310&oe=54BEE7DA&__gda__=1418131725_c7fb34dd0f499751e94e77b1dd067f4c"
+                />
+                <span>QBlock</span>
+            </a>
+        </div>
+
+        <div class="newUsers"></div>
+    </div>
+
+</body>
+
+</html>

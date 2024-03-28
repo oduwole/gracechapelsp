@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Chat</title>
+    <style>body{
+	background:#16a085;
+	margin:0px;
+	height:900px;
+	font-family: sans-serif;
+}
+
+.chat_box{
+	position:fixed;
+	right:20px;
+	bottom:0px;
+	width:250px;
+}
+.chat_body{
+	background:white;
+	height:400px;
+	padding:5px 0px;
+}
+
+.chat_head,.msg_head{
+	background:#f39c12;
+	color:white;
+	padding:15px;
+	font-weight:bold;
+	cursor:pointer;
+	border-radius:5px 5px 0px 0px;
+}
+
+.msg_box{
+	position:fixed;
+	bottom:-5px;
+	width:250px;
+	background:white;
+	border-radius:5px 5px 0px 0px;
+}
+
+.msg_head{
+	background:#3498db;
+}
+
+.msg_body{
+	background:white;
+	height:200px;
+	font-size:12px;
+	padding:15px;
+	overflow:auto;
+	overflow-x: hidden;
+}
+.msg_input{
+	width:100%;
+	border: 1px solid white;
+	border-top:1px solid #DDDDDD;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;  
+}
+
+.close{
+	float:right;
+	cursor:pointer;
+}
+.minimize{
+	float:right;
+	cursor:pointer;
+	padding-right:5px;
+	
+}
+
+.user{
+	position:relative;
+	padding:10px 30px;
+}
+.user:hover{
+	background:#f8f8f8;
+	cursor:pointer;
+
+}
+.user:before{
+	content:'';
+	position:absolute;
+	background:#2ecc71;
+	height:10px;
+	width:10px;
+	left:10px;
+	top:15px;
+	border-radius:6px;
+}
+
+.msg_a{
+	position:relative;
+	background:#FDE4CE;
+	padding:10px;
+	min-height:10px;
+	margin-bottom:5px;
+	margin-right:10px;
+	border-radius:5px;
+}
+.msg_a:before{
+	content:"";
+	position:absolute;
+	width:0px;
+	height:0px;
+	border: 10px solid;
+	border-color: transparent #FDE4CE transparent transparent;
+	left:-20px;
+	top:7px;
+}
+
+
+.msg_b{
+	background:#EEF2E7;
+	padding:10px;
+	min-height:15px;
+	margin-bottom:5px;
+	position:relative;
+	margin-left:10px;
+	border-radius:5px;
+	word-wrap: break-word;
+}
+.msg_b:after{
+	content:"";
+	position:absolute;
+	width:0px;
+	height:0px;
+	border: 10px solid;
+	border-color: transparent transparent transparent #EEF2E7;
+	right:-20px;
+	top:7px;
+}
+</style>
+</head>
+
+<body >
+    <div class="chat_box">
+        <div class="chat_head"> Chat Box</div>
+        <div class="chat_body">
+            <div class="user"> Oduwole Oluwasegun</div>
+            <div id="mr" class="user"> Krishna Teja
+            </div>
+            
+        </div>
+    </div>
+    <div class="box-content">
+        <div class="mbox"></div>
+    <div class="msg_box" style="right:290px">
+        <div class="msg_head">Krishna Teja
+            <div class="close">x</div>
+        </div>
+        <div class="msg_wrap">
+            <div class="msg_body">
+                <div class="msg_a">This is from A </div>
+                <div class="msg_b">This is from B, and its amazingly kool nah... i know it even i liked it :)</div>
+                <div class="msg_a">Wow, Thats great to hear from you man </div>
+                <div class="msg_push"></div>
+            </div>
+            <div class="msg_footer">
+                <textarea class="msg_input" rows="4"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+    Array.remove = function (array, from, to) {
+            var rest = array.slice((to || from) + 1 || array.length);
+            array.length = from < 0 ? array.length + from : from;
+            return array.push.apply(array, rest);
+        };
+
+        function close_popup(id) {
+                for (var iii = 0; iii < popups.length; iii++) {
+                    if (id == popups[iii]) {
+                        Array.remove(popups, iii);
+
+                        document.getElementById(id).style.display = "none";
+
+                        calculate_popups();
+
+                        return;
+                    }
+                }
+            }
+
+             var total_popups = 0;
+
+                //arrays of popups ids
+                var popups = [];
+
+
+
+                function display_popups() {
+                    var right = 220;
+
+                    var iii = 0;
+                    for (iii; iii < total_popups; iii++) {
+                        if (popups[iii] != undefined) {
+                            var element = document.getElementById(popups[iii]);
+                            element.style.right = right + "px";
+                            right = right + 320;
+                            element.style.display = "block";
+                        }
+                    }
+
+                    for (var jjj = iii; jjj < popups.length; jjj++) {
+                        var element = document.getElementById(popups[jjj]);
+                        element.style.display = "none";
+                    }
+                }
+
+                function register_popup(id, name) {
+                    console.log(name);
+                    for (var iii = 0; iii < popups.length; iii++) {
+                        //already registered. Bring it to front.
+                        console.log(popups[iii]);
+                        console.log(id);
+                        if (id == popups[iii]) {
+                            Array.remove(popups, iii);
+
+                            popups.unshift(id);
+
+                            calculate_popups();
+
+
+                            return;
+                        }
+                    }
+
+                    var element = '<div class="msg_box" id="' + id + '">';
+                    //element = element + '<div class="popup-head">';
+                    element = element + '<div class= "msg_head">' + name ;
+                    element = element + '<div class= "close"><a onclick="close_popup(\'' + id + '\');">&#10005;</a></div></div>';
+                    element = element + '<div class="msg_wrap"><div class="msg_body"><div class="msg_push"></div><div class="msg_footer">';
+                    element = element + '<textarea class="msg_input" rows="4"></textarea></div></div></div>';
+                    //element = element + '<input id="sendmessge" type="text"/></div></div></div>';
+
+                    document.getElementsByTagName("body")[0].innerHTML = document.getElementsByTagName("body")[0].innerHTML + element;
+
+                    popups.unshift(id);
+
+                    calculate_popups();
+
+                }
+            function calculate_popups() {
+                    var width = window.innerWidth;
+                    if (width < 540) {
+                        total_popups = 0;
+                    }
+                    else {
+                        width = width - 200;
+                        //320 is width of a single popup box
+                        total_popups = parseInt(width / 320);
+                    }
+
+                    display_popups();
+
+                }
+
+                //recalculate when window is loaded and also when window is resized.
+                window.addEventListener("resize", calculate_popups);
+                window.addEventListener("load", calculate_popups);
+
+    $(document).ready(function () {
+        var counter =1;
+         
+               /*$('#mr').click(function(){
+            register_popup('narayan - prusty', 'Narayan Prusty');
+        })*/
+            $('.chat_head').click(function () {
+                $('.chat_body').slideToggle('slow');
+            });
+            $('.msg_head').click(function () {
+                $('.msg_wrap').slideToggle('slow');
+            });
+
+            $('.close').click(function () {
+                $('.msg_box').hide();
+            });
+
+            $('.user').click(function () {
+
+                //$('.msg_wrap').show();
+                //$('.msg_box').show();
+                //console.log($(this).context.innerHTML)
+                //createChat($(this).context.innerHTML);
+                register_popup($(this).context.innerHTML, $(this).context.innerHTML);
+            });
+
+            function createChat(name){
+                var right= (290 * counter ) + 10;
+                $(' <div class="msg_box" style="right:'+ right +'px"><div class= "msg_head" >'+ name +
+                    '<div class= "close" > x</div ></div ><div class="msg_wrap"><div class="msg_body">'+
+                    '<div class="msg_push"></div><div class="msg_footer">'+
+                    '<textarea class="msg_input" rows="4"></textarea></div></div></div >').insertBefore('.mbox');
+                    counter++;
+            }
+
+            
+
+            $('textarea').keypress(
+                function (e) {
+                    if (e.keyCode == 13) {
+                        e.preventDefault();
+                        var msg = $(this).val();
+                        $(this).val('');
+                        if (msg != '')
+                            $('<div class="msg_b">' + msg + '</div>').insertBefore('.msg_push');
+                        $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+                    }
+                });
+
+        });
+
+    </script>
+    </body>
+
+</html>

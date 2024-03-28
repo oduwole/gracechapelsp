@@ -1,0 +1,55 @@
+{
+    "title": "Seekers Locus Kreativez",
+    "name": "SLKreativez",
+    "version": "1.0.0",
+    "description": "Seekers Locus Kreativez",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "engines": {
+        "node": "8.11.1"
+    },
+    "keywords": [
+        "css",
+        "sass",
+        "html",
+        "responsive",
+        "theme",
+        "template"
+    ],
+    "homepage": "http://slkreativez.com",
+    "license": "MIT",
+    "author": "Oduwole Oluwasegun",
+    "contributors": [
+        "David Miller (http://davidmiller.io/)"
+    ],
+    "dependencies": {
+        "applicationinsights": "^1.0.2",
+        "bcrypt-nodejs": "latest",
+        "bootstrap": "^4.0.0-beta.2",
+        "compression": "^1.7.2",
+        "connect-flash": "^0.1.1",
+        "cookie-parser": "^1.4.3",
+        "cookie-session": "^2.0.0-beta.3",
+        "ejs": "^2.5.7",
+        "express": "^4.16.2",
+        "express-logger": "0.0.3",
+        "express-session": "^1.15.6",
+        "express-sessions": "^1.0.6",
+        "jquery": "^3.2.1",
+        "mongoose": "^7.6.3",
+        "nodemailer": "^4.6.2",
+        "passport": "^0.4.0",
+        "passport-facebook": "^2.1.1",
+        "passport-google-oauth": "^1.0.0",
+        "passport-local": "^1.0.0",
+        "passport-twitter": "^1.0.4",
+        "redis": "^2.8.0",
+        "socket.io": "^2.0.4"
+    },
+    "devDependencies": {
+        "browser-sync": "2.18.13",
+        "gulp": "^3.9.1"
+    }
+}

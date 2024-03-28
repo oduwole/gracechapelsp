@@ -20,8 +20,8 @@ function loadReadLanding() {
     //$('.modal-body').html(body);
     $('#prembd').html(body);
     //$('.modal-title').html(title);
-    myModal.show({
+    /*myModal.show({
         keyboard: false,
         backdrop: 'static'
-    });
+    });*/
 }

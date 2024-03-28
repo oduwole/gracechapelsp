@@ -1,0 +1,23 @@
+#chat-btn {
+  width: 110px;
+  height: 78px;
+  color:#fff;
+  background-color: #0087BD;
+  border-radius: 4px;
+  position: fixed;
+  right:10%;
+  bottom: 40%;
+  text-transform: uppercase;
+}
+#chat-btn:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    right: 10px;
+    bottom: -10px;
+    border-left: 10px solid transparent;
+    border-right: 2px solid transparent;
+    border-top: 10px solid #0087BD;
+}

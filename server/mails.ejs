@@ -1,0 +1,101 @@
+<style type="text/css">
+  .header {
+    background: #8a8a8a;
+  }
+  .header .columns {
+    padding-bottom: 0;
+  }
+  .header p {
+    color: #fff;
+    padding-top: 15px;
+  }
+  .header .wrapper-inner {
+    padding: 20px;
+  }
+  .header .container {
+    background: transparent;
+  }
+  table.button.facebook table td {
+    background: #3B5998 !important;
+    border-color: #3B5998;
+  }
+  table.button.twitter table td {
+    background: #1daced !important;
+    border-color: #1daced;
+  }
+  table.button.google table td {
+    background: #DB4A39 !important;
+    border-color: #DB4A39;
+  }
+  .wrapper.secondary {
+    background: #f3f3f3;
+  }
+</style>
+
+
+
+<wrapper class="header">
+  <container>
+    <row class="collapse">
+      <columns small="6">
+        <img src="http://slkreativez.com/assets/images/loo.jpg">
+      </columns>
+      <columns small="6">
+        <p class="text-right">SLLKreativez Bookings</p>
+      </columns>
+    </row>
+  </container>
+</wrapper>
+
+<container>
+
+  <spacer size="16"></spacer>
+
+  <row>
+    <columns small="12">
+
+      <h1>Hi, <%= name %></h1>
+      <p class="lead">Thanks for requesting for book review value pack services. Our CRM will chat you shortly.</p>
+      <p>Take a cup of orange juice while we get started. Looking forward to this work experience.</p>
+      <callout class="primary">
+        <p><h4>Request Details:
+          <ul>
+            <li>
+              <span>Product Name</span><%= data.product %>
+            </li>
+            <li>
+              <%= data.location %>
+            </li>
+            <li>
+              <%= data.details %>
+            </li>
+          </ul>
+        </h4></p>
+      </callout>
+
+      <p>
+         With Love From: <br/>SL Kreativez Review Team
+      </p>
+    </columns>
+  </row>
+  <wrapper class="secondary">
+
+    <spacer size="16"></spacer>
+
+    <row>
+      <columns large="6">
+        <h5>Connect With Us:</h5>
+        <button class="facebook expand" href="https://facebook.com/slkreativez">Facebook</button>
+        <button class="twitter expand" href="https://twitter.com/slkreativez">Twitter</button>
+        <button class="google expand" href="https://plus.google.com/slkreativez">Google+</button>
+      </columns>
+      <columns large="6">
+        <h5>Contact Info:</h5>
+        <p>Phone: <a href="tel:+2349055781715">(+234)9055781715</a></p>
+        <p>Email: <a href="mailto:info@slkreativez.com">info@slkreativez.com</a></p>
+      </columns>
+    </row>
+
+    <p>Proudly Made in Nigeria.</p>
+  </wrapper>
+</container>
