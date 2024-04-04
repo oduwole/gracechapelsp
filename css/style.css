@@ -84,7 +84,7 @@ ul.tick li{margin-bottom:10px;}
   margin: 0;
   font-weight: bold;
 }
-.title:after {
+/*.title:after {
   background: #38b6ff;
   content: "";
   width: 56px;
@@ -92,7 +92,7 @@ ul.tick li{margin-bottom:10px;}
   position: absolute;
   bottom: -18px;
   left: 0;
-}
+}*/
 .title h1 span {
   display: block; font-size: 16px;
 }
@@ -974,12 +974,22 @@ ul.rating li.star-rate i {
        == Appointment Start ==
 ********************************************/
 .appointment-area {
-    z-index: 1; background: url(../images/appointment-bg.jpg) no-repeat top; background-size: cover; padding: 80px 0 100px 0;
+    z-index: 1; background: url(../images/home/rcgc6.png) no-repeat top; background-size: cover; padding: 80px 0 100px 0;
 }
 .appointment-area .title:after{margin-bottom: -20px;}
 .appointment-area .title h1{color: #fff;}
 .appointment-form .form-group{margin: 30px 0;}
 .appointment-form .form-group input {
+    background: rgb(255 255 255 / 12%);
+    color: #fff;
+    border: 2px solid #9ab5c5;
+    border-radius: 40px;
+    height: 66px;
+    padding: 0 30px;
+    font-size: 14px;
+    width: 100%;
+}
+.appointment-form .form-group textarea {
     background: rgb(255 255 255 / 12%);
     color: #fff;
     border: 2px solid #9ab5c5;
