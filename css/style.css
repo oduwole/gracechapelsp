@@ -974,7 +974,7 @@ ul.rating li.star-rate i {
        == Appointment Start ==
 ********************************************/
 .appointment-area {
-    z-index: 1; background: url(../images/home/rcgc6.png) no-repeat top; background-size: cover; padding: 80px 0 100px 0;
+    z-index: 1; background: url(../images/home/rcgc5.png) no-repeat top; background-size: cover; padding: 80px 0 100px 0;
 }
 .appointment-area .title:after{margin-bottom: -20px;}
 .appointment-area .title h1{color: #fff;}
