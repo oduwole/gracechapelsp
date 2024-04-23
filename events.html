@@ -101,93 +101,23 @@
 <!--Inner Heading Start-->
 <div class="innerHeading">
   <div class="container">
-    <h1>Contact Us</h1>
+    <h1>Upcoming Events</h1>
   </div>
 </div>
 <!--Inner Heading End--> 
 
-<!--mailbox start-->
-<div class="container mt-5">
-  <div class="text-center mb-3">
-      <h3></h3>
-  </div>
-  <div class="row g-2">
-      <div class="col-md-4">
-          <div class="card"> <img src="./images/locatn.png" width="40">
-              <h5>Church Address</h5>
-              <p><a href="http://maps.google.com/?q=Meols Cops Youth Centre, Southport PR8 6JU">Meols Cops Youth Centre, Southport PR8 6JU</a></p>
-          </div>
-      </div>
-      <div class="col-md-4">
-          <div class="card"> <img src="https://i.imgur.com/TNKflal.png" width="40">
-              <h5>Email</h5>
-              <p><a href="mailto:info@rccggracechapelsouthport.uk">info@rccggracechapelsouthport.uk</a></p>
-          </div>
-      </div>
-      <div class="col-md-4">
-          <div class="card"> <img src="https://i.imgur.com/pZLFSO3.png" width="40">
-              <h5>Phone</h5>
-              <p><a href="tel:+447432752123"> +447432752123</a><br />
-                <a href="tel:+447404100782"> +447404100782</a></p>
-          </div>
-      </div>
-  </div>
-</div>
-<!--mailbox end-->
-
-<!--Inner Content Start-->
 <div class="innercontent wow fadeInUp">
-  <div class="container">
-    <div class="getTouch">Get In Touch</div>
-    <div class="row formcol">
-      <div class="col-lg-8">
-        <form class="form mb-md50" id="contact-form" novalidate="">
-          <div class="messages"></div>
-          <div class="controls">
+    <div class="container">
+        <div class="about-wrap" id="about">
             <div class="row">
-              <div class="col-lg-6">
-                <div class="form-group has-error has-danger">
-                  <input id="form_name" class="form-control" type="text" name="name" placeholder="Name" required="">
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <input id="form_email" class="form-control" type="email" name="email" placeholder="Email" required="">
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <input id="form_phone" class="form-control" type="text" name="phone" placeholder="Phone" required="">
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <input id="form_subject" class="form-control" type="text" name="subject" placeholder="Subject">
-                </div>
-              </div>
               <div class="col-lg-12">
-                <div class="form-group">
-                  <textarea id="form_message" class="form-control" name="message" placeholder="Message" rows="4" required=""></textarea>
-                </div>
-              </div>
-              <div class="col-lg-12 contact-wrap">
-                <div class="contact-btn">
-                  <button type="submit" class="sub">Submit Now <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
-                </div>
+                <div id='calendar'></div>
               </div>
             </div>
           </div>
-        </form>
-      </div>
-      <div class="col-lg-4">
-        <div class="map">
-          <iframe src="http://maps.google.com/?q=Meols Cops Youth Centre, Southport PR8 6JU" width="100%" height="330" frameborder="0" style="border:0" allowfullscreen=""></iframe>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
-<!--Inner Content End--> 
+
 
 <!--Footer Start-->
 <footer class="footer bg-style wow fadeInUp bg_img" data-overlay="6">
@@ -285,6 +215,9 @@
 </script> 
 <!-- general script file --> 
 <script src="js/wow.js"></script> 
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js" integrity="sha512-hUhvpC5f8cgc04OZb55j0KNGh4eh7dLxd/dPSJ5VyzqDWxsayYbojWyl5Tkcgrmb/RVKCRJI1jNlRbVP4WWC4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="js/script.js"></script>
 <script type='text/javascript'>
   var onWebChat = {
@@ -311,5 +244,61 @@
       })()
   }
 </script>
+
+<script>
+    var data = [];
+var sunday = moment()
+    .startOf('month')
+    .day("Sunday");
+
+    var tuesday = moment()
+    .startOf('month')
+    .day("Tuesday");
+if (sunday.date() > 7) sunday.add(7,'d');
+var month = sunday.month();
+if (tuesday.date() > 7) tuesday.add(7,'d');
+var tuesday_month = tuesday.month();
+
+for(var i = 0; i < 4; i++){
+    let tempData = {
+        title: 'Sunday Service',
+        start: sunday.format('YYYY-MM-DD'), // + 'T10:00:00',
+        color: 'red'
+      }
+      console.log(tempData)
+      data.push(tempData);
+    sunday.add(7,'d');
+}
+for(var i = 0; i < 4; i++){
+    let tempData = {
+        title: 'Bible Study',
+        start: tuesday.format('YYYY-MM-DD')//.toString()
+      }
+      console.log(tempData)
+      data.push(tempData);
+      tuesday.add(7,'d');
+}
+loadCalendar(data);
+   
+/*
+[{
+        title: 'All Day Event',
+        start: '2024-04-30'
+      }]
+*/
+
+function loadCalendar(events_data){
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        height: $(window).height() - 200,  
+      events: events_data,
+  timeFormat: 'H(:mm)'
+      });
+      calendar.render();
+    });
+}
+  </script>
 </body>
 </html>
