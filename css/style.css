@@ -980,12 +980,21 @@ ul.rating li.star-rate i {
 /********************************************
        == Appointment Start ==
 ********************************************/
+.bg-black{
+    background-color: #000;
+}
+
+.newsletter-area {
+    z-index: 1; background: url(../assets/newsletters/nl1.jpeg) no-repeat top; background-size: cover; padding: 80px -80px 100px -80px; height: 100%;
+}
+.newsletter-area .title:after{margin-bottom: -20px;}
+.newsletter-area .title h1{color: #fff;}
 .appointment-area {
-    z-index: 1; background: url(../images/home/rcgc5.png) no-repeat top; background-size: cover; padding: 80px 0 100px 0;
+    z-index: 1; background: url(../images/home/arcgc5.png) no-repeat top; background-size: cover; padding: 80px 0 100px 0; height: 100%;
 }
 .appointment-area .title:after{margin-bottom: -20px;}
 .appointment-area .title h1{color: #fff;}
-.appointment-form .form-group{margin: 30px 0;}
+.appointment-form .form-group{margin: 80px 0;}
 .appointment-form .form-group input {
     background: rgb(255 255 255 / 12%);
     color: #fff;
