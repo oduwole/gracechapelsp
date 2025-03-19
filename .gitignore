@@ -291,3 +291,4 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+.early.coverage
