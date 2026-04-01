@@ -34,6 +34,230 @@
 
 <body>
 
+  <!-- Announcement Modal -->
+  <style>
+    #announcementModal .modal-dialog {
+      max-width: 80%;
+      margin: 1.75rem auto;
+    }
+    #announcementModal .modal-content {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+    #announcementModal .modal-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-bottom: none;
+      padding: 25px 30px;
+      position: relative;
+    }
+    #announcementModal .modal-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.1)"/></svg>');
+      background-size: 50px;
+      opacity: 0.3;
+    }
+    #announcementModal .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 1;
+    }
+    #announcementModal .modal-body {
+      padding: 40px 30px;
+      background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+    }
+    #announcementModal .event-icon {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+    #announcementModal .event-icon i {
+      font-size: 3rem;
+      color: white;
+    }
+    #announcementModal .event-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #333;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    #announcementModal .event-location {
+      font-size: 1.3rem;
+      color: #667eea;
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
+    #announcementModal .details-container {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      margin-bottom: 25px;
+    }
+    #announcementModal .detail-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+    #announcementModal .detail-item:last-child {
+      border-bottom: none;
+    }
+    #announcementModal .detail-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+    #announcementModal .detail-icon i {
+      font-size: 1.2rem;
+      color: white;
+    }
+    #announcementModal .detail-content {
+      flex: 1;
+    }
+    #announcementModal .detail-label {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    #announcementModal .detail-value {
+      font-size: 1.1rem;
+      color: #333;
+      font-weight: 600;
+    }
+    #announcementModal .free-badge {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      color: white;
+      padding: 15px 30px;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 15px;
+      box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    #announcementModal .cta-text {
+      font-size: 1rem;
+      color: #666;
+      margin-top: 10px;
+    }
+    #announcementModal .modal-footer {
+      background: #f8f9fa;
+      border-top: none;
+      padding: 20px 30px;
+    }
+    #announcementModal .btn-close-modal {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 40px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    #announcementModal .btn-close-modal:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+    }
+    @media (max-width: 768px) {
+      #announcementModal .modal-dialog {
+        max-width: 95%;
+        margin: 10px auto;
+      }
+      #announcementModal .modal-title {
+        font-size: 1.2rem;
+      }
+      #announcementModal .event-title {
+        font-size: 1.5rem;
+      }
+      #announcementModal .detail-item {
+        flex-direction: column;
+        text-align: center;
+      }
+      #announcementModal .detail-icon {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+  <div class="modal fade" id="announcementModal" tabindex="-1" role="dialog" aria-labelledby="announcementModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="announcementModalLabel">
+            <i class="fas fa-bus mr-2"></i>Free Coach/Bus to RCCG Festival of Life 2026
+          </h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          <div class="mb-4">
+            <i class="fas fa-church fa-3x text-primary mb-3"></i>
+            <h4 class="text-primary">RCCG Festival of Life 2026</h4>
+            <p class="lead">London</p>
+          </div>
+          <hr>
+          <div class="announcement-details">
+            <p class="mb-2">
+              <i class="fas fa-calendar-alt text-primary mr-2"></i>
+              <strong>Date:</strong> Friday 10th April 2026
+            </p>
+            <p class="mb-2">
+              <i class="fas fa-clock text-primary mr-2"></i>
+              <strong>Time:</strong> 12 noon
+            </p>
+            <p class="mb-2">
+              <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+              <strong>Take off point:</strong> At the church venue - 5 Lord Street West, Southport PR82BH
+            </p>
+          </div>
+          <hr>
+          <p class="text-success font-weight-bold">
+            <i class="fas fa-check-circle mr-2"></i>FREE COACH/BUS SERVICE AVAILABLE!
+          </p>
+          <p class="text-muted">Don't miss this opportunity to join us for this amazing event.</p>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">
+            <i class="fas fa-thumbs-up mr-2"></i>Got It!
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Announcement Modal End -->
   <!--Topbar Start-->
   <div class="topbar-wrap">
     <div class="container">
@@ -428,6 +652,18 @@
     <script src="js/jquery.flexslider.js"></script>
     <script>
       new WOW().init();
+    </script>
+    <script>
+      // Show announcement modal on page load (only before April 10th, 2026)
+      $(document).ready(function() {
+        var eventDate = new Date('2026-04-10');
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        if (today <= eventDate) {
+          $('#announcementModal').modal('show');
+        }
+      });
     </script>
     <!-- general script file -->
     <script src="js/wow.js"></script>
